@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root";
 import Home from "./pages/Home";
 import EventsRoot from "./pages/EventsRoot";
-import Events from "./pages/Events";
+import Events, { eventsLoader } from "./pages/Events";
 import EventDetails from "./pages/EventDetails";
 import NewEvent from "./pages/NewEvent";
 import EditEvent from "./pages/EditEvent";
@@ -20,7 +20,7 @@ const App = () => {
           path: "events",
           element: <EventsRoot />,
           children: [
-            {index: true, element: <Events />},
+            {index: true, element: <Events />, loader: eventsLoader},
             {path: ":eventId", element: <EventDetails />},
             {path: "new", element: <NewEvent />},
             {path: ":eventId/edit", element: <EditEvent />}

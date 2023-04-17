@@ -8,12 +8,14 @@ import Events, { eventsLoader } from "./pages/Events";
 import EventDetails from "./pages/EventDetails";
 import NewEvent from "./pages/NewEvent";
 import EditEvent from "./pages/EditEvent";
+import Error from "./pages/Error";
 
 const App = () => {
   const routes = createBrowserRouter([
     {
       path: "/",
       element: <Root />,
+      errorElement: <Error />,
       children: [
         {index: true, element: <Home />},
         {

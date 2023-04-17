@@ -6,6 +6,11 @@ import EventsList from "../components/EventList";
 const Events = () => {
     const data = useLoaderData()
 
+    // 1
+    // if(data.isError) {
+    //     return <p>{data.message}</p>
+    // }
+
     return(
         <EventsList events={data.events} />
     )
@@ -18,6 +23,11 @@ export const eventsLoader = async () => {
     const response = await fetch("http://localhost:8080/events")
 
     if(!response.ok) {
+        // 1
+        // return{isError: true, message: "Could not fetch events!"}
+
+        // 2
+        throw Error
 
     } else {
         const responseData = await response.json()

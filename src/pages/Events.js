@@ -1,27 +1,37 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
-const DUMMY_EVENTS = [
-    {id: "e1", title: "event 1"},
-    {id: "e2", title: "event 2"},
-    {id: "e3", title: "event 3"},
-    {id: "e4", title: "event 4"},
-]
+import EventsList from "../components/EventList";
 
 const Events = () => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState()
+    const [fetchedEvents, setFetchedEvents] = useState()
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            setIsLoading(true)
+            const response = await fetch("http://localhost:8080/events")
+
+            if(!response.ok) {
+                setError("Fetching events failed!")
+            } else {
+                const responseData = await response.json()
+                setFetchedEvents(responseData.events)
+            }
+            setIsLoading(false)
+        }
+        fetchEvents()
+
+    }, [])
+
     return(
-        <Fragment>
-            <h1>Events</h1>
-            <ul>
-                {
-                    DUMMY_EVENTS.map((event) => (
-                        <li key={event.id}>
-                            <Link to={event.id}>{event.title}</Link>
-                        </li>
-                    ))
-                }
-            </ul>
-        </Fragment>
+        <div style={{ textAlign: "center" }}>
+            {isLoading && <p>Loading...</p>}
+            {error && <p>{error}</p>}
+            <div>
+                {!isLoading && fetchedEvents && <EventsList events={fetchedEvents} />}
+            </div>
+        </div>
     )
 }
 

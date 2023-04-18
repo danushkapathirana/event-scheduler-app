@@ -1,11 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useSubmit } from "react-router-dom";
 
 import classes from "./EventItem.module.css"
 
 const EventItem = ({ event }) => {
-    const startDeleteHandler = () => {
+    const submit = useSubmit()
 
+    const startDeleteHandler = () => {
+        const proceed = window.confirm("Are you sure?")
+
+        if(proceed) {
+            submit(null, {method: "delete"})
+        }
     }
 
     return(
@@ -24,3 +30,5 @@ const EventItem = ({ event }) => {
 }
 
 export default EventItem
+
+// useSubmit() -> use to submit data and trigger an action programmatically

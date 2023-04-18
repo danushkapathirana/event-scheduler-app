@@ -1,10 +1,11 @@
 import React from "react";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, useActionData, useNavigate } from "react-router-dom";
 
 import classes from "./EventForm.module.css"
 
 const EventForm = ({ method, event }) => {
     const navigate = useNavigate()
+    const actionData = useActionData()
 
     const cancelHandler = () => {
         navigate("..")
@@ -12,6 +13,17 @@ const EventForm = ({ method, event }) => {
 
     return(
         <Form method="post" className={classes.form}>
+            {/* backend validation check; refer this with backend code */}
+            {
+                actionData && actionData.errors && <ul>
+                    {Object.values(actionData.errors).map((error) => (
+                        <li key={error}>
+                            {error}
+                        </li>
+                    ))}
+                </ul>
+            }
+
             <p>
                 <label htmlFor="title">Title</label>
                 <input id="title" type="text" name="title" required defaultValue={event ? event.title : ""} />
@@ -49,3 +61,5 @@ export default EventForm
  * 
  * all the input elements must have name attribute
  */
+
+// useActionData() -> use to get access to the data which returned by action

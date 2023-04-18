@@ -5,7 +5,7 @@ import Root from "./pages/Root";
 import Home from "./pages/Home";
 import EventsRoot from "./pages/EventsRoot";
 import Events, { eventsLoader } from "./pages/Events";
-import EventDetails from "./pages/EventDetails";
+import EventDetails, { eventDetailsLoader } from "./pages/EventDetails";
 import NewEvent from "./pages/NewEvent";
 import EditEvent from "./pages/EditEvent";
 import Error from "./pages/Error";
@@ -23,7 +23,7 @@ const App = () => {
           element: <EventsRoot />,
           children: [
             {index: true, element: <Events />, loader: eventsLoader},
-            {path: ":eventId", element: <EventDetails />},
+            {path: ":eventId", element: <EventDetails />, loader: eventDetailsLoader},
             {path: "new", element: <NewEvent />},
             {path: ":eventId/edit", element: <EditEvent />}
           ]

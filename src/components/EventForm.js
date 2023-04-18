@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, useActionData, useNavigate } from "react-router-dom";
+import { Form, json, redirect, useActionData, useNavigate } from "react-router-dom";
 
 import classes from "./EventForm.module.css"
 
@@ -12,7 +12,7 @@ const EventForm = ({ method, event }) => {
     }
 
     return(
-        <Form method="post" className={classes.form}>
+        <Form method={method} className={classes.form}>
             {/* backend validation check; refer this with backend code */}
             {
                 actionData && actionData.errors && <ul>
@@ -63,3 +63,47 @@ export default EventForm
  */
 
 // useActionData() -> use to get access to the data which returned by action
+
+
+export const eventAction = async ({ request, params }) => {
+    const method = request.method
+
+    // formData() can use to access the form elements data
+    const data = await request.formData()
+
+    // use names attributes to extract the data in text fields
+    const enteredData = {
+        title: data.get("title"),
+        image: data.get("image"),
+        date: data.get("date"),
+        description: data.get("description")
+    }
+
+    let url = "http://localhost:8080/events"
+
+    if(method === "PATCH") {
+        const id = params.eventId
+        url = "http://localhost:8080/events/" + id
+    }
+
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(enteredData)
+    })
+
+    // backend validation check; refer this with backend code
+    if(response.status === 422) {
+        return response
+    }
+
+    if(!response.ok) {
+        throw json({message: "Could not save event!"}, {status: 500})
+    }
+
+    return redirect("/events")
+}
+
+// redirect() -> special response object that simple redirect to a different page

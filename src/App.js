@@ -23,9 +23,17 @@ const App = () => {
           element: <EventsRoot />,
           children: [
             {index: true, element: <Events />, loader: eventsLoader},
-            {path: ":eventId", element: <EventDetails />, loader: eventDetailsLoader},
+            {
+              path: ":eventId",
+              id: "event-details",
+              loader: eventDetailsLoader,
+              children: [
+                {index: true, element: <EventDetails />},
+                {path: "edit", element: <EditEvent />}
+
+              ]
+            },
             {path: "new", element: <NewEvent />},
-            {path: ":eventId/edit", element: <EditEvent />}
           ]
         }
       ]

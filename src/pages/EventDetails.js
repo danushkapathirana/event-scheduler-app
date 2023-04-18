@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
-import { json, useLoaderData } from "react-router-dom";
+import { json, useRouteLoaderData } from "react-router-dom";
 
 import EventItem from "../components/EventItem";
 
 const EventDetails = () => {
-    const data = useLoaderData()
+    const data = useRouteLoaderData("event-details")
 
     return(
         <Fragment>

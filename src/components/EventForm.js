@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 
 import classes from "./EventForm.module.css"
 
@@ -11,7 +11,7 @@ const EventForm = ({ method, event }) => {
     }
 
     return(
-        <form className={classes.form}>
+        <Form method="post" className={classes.form}>
             <p>
                 <label htmlFor="title">Title</label>
                 <input id="title" type="text" name="title" required defaultValue={event ? event.title : ""} />
@@ -33,8 +33,19 @@ const EventForm = ({ method, event }) => {
                 <button type="button" onClick={cancelHandler}>Cancel</button>
                 <button>Save</button>
             </div>
-        </form>
+        </Form>
     )
 }
 
 export default EventForm
+
+/**
+ * <Form>
+ * 
+ * provided by react router dom
+ * 
+ * this Form tag will omit sending default request to backend but
+ * it will take that request that would've been sent and give it to our action
+ * 
+ * all the input elements must have name attribute
+ */

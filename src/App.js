@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import EventsRoot from "./pages/EventsRoot";
 import Events, { eventsLoader } from "./pages/Events";
 import EventDetails, { eventDetailsLoader } from "./pages/EventDetails";
-import NewEvent from "./pages/NewEvent";
+import NewEvent, { newEventAction } from "./pages/NewEvent";
 import EditEvent from "./pages/EditEvent";
 import Error from "./pages/Error";
 
@@ -33,7 +33,7 @@ const App = () => {
 
               ]
             },
-            {path: "new", element: <NewEvent />},
+            {path: "new", element: <NewEvent />, action: newEventAction},
           ]
         }
       ]

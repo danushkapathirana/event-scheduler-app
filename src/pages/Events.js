@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { json, useLoaderData } from "react-router-dom";
 
 import EventsList from "../components/EventList";
 
@@ -27,7 +27,11 @@ export const eventsLoader = async () => {
         // return{isError: true, message: "Could not fetch events!"}
 
         // 2
-        throw Error
+        // throw Error
+
+        // 3
+        // throw new Response(JSON.stringify({message: "Could not fetch events!"}), {status: 500})
+        throw json({message: "Could not fetch events!"}, {status: 500})
 
     } else {
         const responseData = await response.json()
@@ -66,4 +70,10 @@ export const eventsLoader = async () => {
  * return response
  * here the loader function we can just return response instead of response.json()...
  * because react router package can automatically extract the data in the response
+ */
+
+/**
+ * json() function
+ * 
+ * this function creates a response object that include data in the json format
  */

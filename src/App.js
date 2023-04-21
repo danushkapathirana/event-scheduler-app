@@ -10,6 +10,7 @@ import NewEvent from "./pages/NewEvent";
 import EditEvent from "./pages/EditEvent";
 import Error from "./pages/Error";
 import { eventAction } from "./components/EventForm";
+import Newsletter, { newsletterAction } from "./pages/Newsletter";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -36,7 +37,8 @@ const App = () => {
             },
             {path: "new", element: <NewEvent />, action: eventAction},
           ]
-        }
+        },
+        {path: "newsletter", element: <Newsletter />, action: newsletterAction}
       ]
     }
   ])

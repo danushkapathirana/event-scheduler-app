@@ -1,5 +1,5 @@
-import React from "react";
-import { json, useLoaderData } from "react-router-dom";
+import React, { Suspense } from "react";
+import { Await, defer, json, useLoaderData } from "react-router-dom";
 
 import EventsList from "../components/EventList";
 
@@ -12,31 +12,41 @@ const Events = () => {
     // }
 
     return(
-        <EventsList events={data.events} />
+        // <EventsList events={data.events} />
+        <Suspense fallback={<p style={{textAlign: "center"}}>Loading...!</p>}>
+            <Await resolve={data.events}>
+                {(loadedEvents) => <EventsList events={loadedEvents} />}
+            </Await>
+        </Suspense>
     )
 }
 
 export default Events
 
-
-export const eventsLoader = async () => {
+const loadEvents = async () => {
     const response = await fetch("http://localhost:8080/events")
-
+    
     if(!response.ok) {
         // 1
         // return{isError: true, message: "Could not fetch events!"}
-
+    
         // 2
         // throw Error
-
+    
         // 3
         // throw new Response(JSON.stringify({message: "Could not fetch events!"}), {status: 500})
         throw json({message: "Could not fetch events!"}, {status: 500})
-
+    
     } else {
         const responseData = await response.json()
-        return responseData
+        return responseData.events
     }
+}
+
+export const eventsLoader = () => {
+    return defer({
+        events: loadEvents()
+    })
 }
 
 // <Link to={`/events/${event.id}`}>{event.title}</Link>
@@ -77,3 +87,24 @@ export const eventsLoader = async () => {
  * 
  * this function creates a response object that include data in the json format
  */
+
+/**
+ * defer is used to load page before the data is there
+ * here this example "Home" and "New Events" button will load even before
+ * the events load
+ * 
+ * if you have async loader with defer functions, you can simply add the "await"
+ * keyword here, and that will make sure that defer waits for this data to be loaded
+ * before loading that component at all
+ * 
+ * sample code below
+ */
+
+// export async function loader({ request, params }) {
+//     const id = params.eventId;
+
+//     return defer({
+//         event: await loadEvent(id),
+//         events: loadEvents(),
+//     })
+// }

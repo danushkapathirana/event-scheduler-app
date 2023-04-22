@@ -11,6 +11,9 @@ import EditEvent from "./pages/EditEvent";
 import Error from "./pages/Error";
 import { eventAction } from "./components/EventForm";
 import Newsletter, { newsletterAction } from "./pages/Newsletter";
+import Authentication, { authenticationAction } from "./pages/Authentication";
+import { logoutAction } from "./pages/Logout";
+import { checkAuthLoader, tokenLoader } from "./components/util/auth";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -18,6 +21,8 @@ const App = () => {
       path: "/",
       element: <Root />,
       errorElement: <Error />,
+      id: "root",
+      loader: tokenLoader,
       children: [
         {index: true, element: <Home />},
         {
@@ -31,14 +36,16 @@ const App = () => {
               loader: eventDetailsLoader,
               children: [
                 {index: true, element: <EventDetails />, action: eventDeleteAction},
-                {path: "edit", element: <EditEvent />, action: eventAction}
+                {path: "edit", element: <EditEvent />, action: eventAction, loader: checkAuthLoader}
 
               ]
             },
-            {path: "new", element: <NewEvent />, action: eventAction},
+            {path: "new", element: <NewEvent />, action: eventAction, loader: checkAuthLoader},
           ]
         },
-        {path: "newsletter", element: <Newsletter />, action: newsletterAction}
+        {path: "auth", element: <Authentication />, action: authenticationAction},
+        {path: "newsletter", element: <Newsletter />, action: newsletterAction},
+        {path: "logout", action: logoutAction}
       ]
     }
   ])

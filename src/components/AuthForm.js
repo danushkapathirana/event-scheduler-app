@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import { Form } from "react-router-dom";
+import React from "react";
+import { Form, Link, useSearchParams } from "react-router-dom";
 
 import classes from "./AuthForm.module.css"
 
 const AuthForm = () => {
-    const [isLogin, setIsLogin] = useState()
-
-    const switchAuthHandler = () => {
-        setIsLogin((isCurrentlyLogin) => !isCurrentlyLogin)
-    }
+    // const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
+    const isLogin = searchParams.get("mode") === "login"
     
     return(
         <Form method="post" className={classes.form}>
@@ -22,9 +20,9 @@ const AuthForm = () => {
                 <input id="password" type="password" name="password" required />
             </p>
             <div className={classes.actions}>
-                <button onClick={switchAuthHandler} type="button">
+                <Link to={`?mode=${isLogin ? "signup" : "login"}`}>
                     {isLogin ? "Create a new user" : "Login"}
-                </button>
+                </Link>
                 <button>Save</button>
             </div>
         </Form>

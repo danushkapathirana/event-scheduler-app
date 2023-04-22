@@ -13,7 +13,7 @@ import { eventAction } from "./components/EventForm";
 import Newsletter, { newsletterAction } from "./pages/Newsletter";
 import Authentication, { authenticationAction } from "./pages/Authentication";
 import { logoutAction } from "./pages/Logout";
-import { tokenLoader } from "./components/util/auth";
+import { checkAuthLoader, tokenLoader } from "./components/util/auth";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -36,11 +36,11 @@ const App = () => {
               loader: eventDetailsLoader,
               children: [
                 {index: true, element: <EventDetails />, action: eventDeleteAction},
-                {path: "edit", element: <EditEvent />, action: eventAction}
+                {path: "edit", element: <EditEvent />, action: eventAction, loader: checkAuthLoader}
 
               ]
             },
-            {path: "new", element: <NewEvent />, action: eventAction},
+            {path: "new", element: <NewEvent />, action: eventAction, loader: checkAuthLoader},
           ]
         },
         {path: "auth", element: <Authentication />, action: authenticationAction},

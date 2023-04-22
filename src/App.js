@@ -12,6 +12,7 @@ import Error from "./pages/Error";
 import { eventAction } from "./components/EventForm";
 import Newsletter, { newsletterAction } from "./pages/Newsletter";
 import Authentication, { authenticationAction } from "./pages/Authentication";
+import { logoutAction } from "./pages/Logout";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -40,7 +41,8 @@ const App = () => {
           ]
         },
         {path: "auth", element: <Authentication />, action: authenticationAction},
-        {path: "newsletter", element: <Newsletter />, action: newsletterAction}
+        {path: "newsletter", element: <Newsletter />, action: newsletterAction},
+        {path: "logout", action: logoutAction}
       ]
     }
   ])

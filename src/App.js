@@ -13,6 +13,7 @@ import { eventAction } from "./components/EventForm";
 import Newsletter, { newsletterAction } from "./pages/Newsletter";
 import Authentication, { authenticationAction } from "./pages/Authentication";
 import { logoutAction } from "./pages/Logout";
+import { tokenLoader } from "./components/util/auth";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -20,6 +21,8 @@ const App = () => {
       path: "/",
       element: <Root />,
       errorElement: <Error />,
+      id: "root",
+      loader: tokenLoader,
       children: [
         {index: true, element: <Home />},
         {

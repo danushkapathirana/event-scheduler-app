@@ -1,10 +1,33 @@
-import React, { Fragment } from "react";
-import { Outlet, useNavigation } from "react-router-dom";
+import React, { Fragment, useEffect } from "react";
+import { Outlet, useLoaderData, useNavigation, useSubmit } from "react-router-dom";
 
 import MainNavigation from "../components/MainNavigation";
+import { getTokenDuration } from "../components/util/auth";
 
 const Root = () => {
     const navigation = useNavigation()
+    const token = useLoaderData()
+    const submit = useSubmit()
+
+    // logging out automatically after token time expiration
+    useEffect(() => {
+
+        if(!token) {
+            return
+        }
+
+        if(token === "EXPIRED") {
+            submit(null, {action: "/logout", method: "post"})
+            return
+        }
+
+        const tokenDuration = getTokenDuration()
+        console.log(tokenDuration)
+
+        setTimeout(() => {
+            submit(null, {action: "/logout", method: "post"})
+        }, tokenDuration)
+    }, [token, submit])
 
     return(
         <Fragment>

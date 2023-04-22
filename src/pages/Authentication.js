@@ -46,5 +46,10 @@ export const authenticationAction = async ({ request }) => {
     const token = responseData.token
     localStorage.setItem("token", token)
 
+    // set expiration time has one hour and save in local storage
+    const expiration = new Date()
+    expiration.setHours(expiration.getHours() + 1)
+    localStorage.setItem("expiration", expiration.toISOString())
+
     return redirect("/")
 }
